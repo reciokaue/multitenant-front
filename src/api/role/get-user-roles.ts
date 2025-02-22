@@ -1,13 +1,13 @@
 import { api } from "@/lib/axios";
 
-interface UserRole {
+export interface UserRole {
   userId: number
   teamId: number
   roleId: number
   role: Role
 }
 
-interface Role {
+export interface Role {
   id: number
   name: string
   permissions: string[]
