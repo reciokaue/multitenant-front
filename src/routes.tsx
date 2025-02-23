@@ -6,6 +6,7 @@ import { AppLayout } from './pages/layouts/app'
 import { AuthLayout } from './pages/layouts/auth'
 import { Login } from './pages/auth/login'
 import { Register } from './pages/auth/register'
+import { Teams } from './pages/teams'
 
 export const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ export const router = createBrowserRouter([
     element: <AppLayout />,
     errorElement: <Error />,
     children: [
-      { path: '/', element: <Login /> },
+      { path: '/', element: <Teams /> },
       // { path: '/orders', element: <Orders /> },
     ],
   },
