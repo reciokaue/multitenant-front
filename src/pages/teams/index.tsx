@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 export function Teams() {
   const { data, isLoading: isLoadingTeams } = useQuery({
@@ -17,12 +18,14 @@ export function Teams() {
       <div className="flex gap-3">
         {data && !isLoadingTeams &&
             data.teams.map((team) => (
-              <Card
-                className="p-2 aspect-square w-20"
-                key={team.id}
-              >
-                {team.name}
-              </Card>
+              <Link to={`/team/${team.id}`}>
+                <Card
+                  className="p-2 aspect-square w-20"
+                  key={team.id}
+                >
+                  {team.name}
+                </Card>
+              </Link>
         ))}
         {isLoadingTeams && [0,1,2].map((i) => (
           <Skeleton key={i}/>

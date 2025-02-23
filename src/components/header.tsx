@@ -19,11 +19,11 @@ export function Header() {
             <Home className="h-4 w-4" />
             Times
           </Navlink>
-          <Navlink to="/orders">
+          <Navlink to="/tasks">
             <UtensilsCrossed className="h-4 w-4" />
             Tarefas
           </Navlink>
-          <Navlink to="/orders">
+          <Navlink to="/search">
             <Search className="h-4 w-4" />
             Buscar
           </Navlink>

@@ -6,7 +6,7 @@ export const api = axios.create({
   withCredentials: true,
 })
 
-api.defaults.headers.common.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGVzdGUiLCJlbWFpbCI6InRlc3RlQGdtYWlsLmNvbSIsImlkIjoxLCJpYXQiOjE3NDAyNTE0OTgsImV4cCI6MTc0MDMzNzg5OH0.rfDypTgJMK-woij41F4B2w5kaVqxAQin-7dsgjXN76s`
+api.defaults.headers.common.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGVzdGUiLCJlbWFpbCI6InRlc3RlQGdtYWlsLmNvbSIsImlkIjoxLCJpYXQiOjE3NDAzNDg2NjIsImV4cCI6MTc3MTg4NDY2Mn0.p6cjNsIgNeqsy7hESnMa4Un9OL4P9zfrZN6axhduPk0`
 
 if (env.VITE_ENABLE_API_DELAY) {
   api.interceptors.request.use(async (config) => {

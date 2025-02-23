@@ -1,7 +1,7 @@
 import { api } from "@/lib/axios";
 
 interface GetTeamProps {
-  teamId: number
+  teamId: number | string | undefined
 }
 
 export interface Team {
@@ -14,5 +14,9 @@ interface GetTeamResponse {
 }
 
 export async function getTeam({teamId}: GetTeamProps) {
-  return await api.get(`/team/${teamId}`) as GetTeamResponse
+  if(!teamId)
+    return
+  
+  const response = await api.get(`/team/details/${teamId}`)
+  return response.data as GetTeamResponse
 }

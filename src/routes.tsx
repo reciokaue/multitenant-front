@@ -7,6 +7,8 @@ import { AuthLayout } from './pages/layouts/auth'
 import { Login } from './pages/auth/login'
 import { Register } from './pages/auth/register'
 import { Teams } from './pages/teams'
+import { Tasks } from './pages/tasks'
+import { SelectedTeam } from './pages/selected-team'
 
 export const router = createBrowserRouter([
   {
@@ -15,7 +17,8 @@ export const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { path: '/', element: <Teams /> },
-      // { path: '/orders', element: <Orders /> },
+      { path: '/team/:teamId', element: <SelectedTeam /> },
+      { path: '/tasks', element: <Tasks /> },
     ],
   },
   {
