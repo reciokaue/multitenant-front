@@ -10,7 +10,7 @@ interface EditingColumn {
 }
 
 export async function createColumn({ column }: ColumnProps){
-  const response = await api.post('/column/create', {
+  const response = await api.put('/column/edit', {
     ...column
   })
   return response.data as {column: Column}
