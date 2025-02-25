@@ -1,13 +1,14 @@
 import { api } from "@/lib/axios"
+import { Task } from "./list-tasks"
 
 export interface CreateTaskParams {
-  title: string
-  description: string
-  dueDate?: Date
-  teamId: number
-  categoryId?: number
+  task: Omit<Task, "id">
 }
 
-export async function createTask(task: CreateTaskParams) {
-  return await api.post('/tasks/create', task)
+export async function createTask({ task }: CreateTaskParams) {
+  const response = await api.post('/task/create', {
+    ...task
+  })
+
+  return response.data as Task
 }
