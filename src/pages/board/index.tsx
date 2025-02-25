@@ -1,5 +1,5 @@
 import { getTeam } from "@/api/team/get-team";
-import { Columns } from "@/pages/selected-team/columns";
+import { Columns } from "@/pages/board/columns";
 import { Label } from "@/components/ui/label";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";

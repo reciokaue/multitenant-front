@@ -5,10 +5,14 @@ export interface CreateTaskParams {
   task: Omit<Task, "id">
 }
 
+export interface CreateTaskResponse {
+  task: Task
+}
+
 export async function createTask({ task }: CreateTaskParams) {
   const response = await api.post('/task/create', {
     ...task
   })
 
-  return response.data as Task
+  return response.data as CreateTaskResponse
 }

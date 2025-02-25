@@ -18,11 +18,7 @@ export function Columns({ teamId }: ColumnsProps) {
   const [columnName, setColumnName] = useState("")
   const queryClient = useQueryClient()
 
-  const { data } = useQuery({
-    queryKey: [`columns-${teamId}`],
-    queryFn: () => listColumns({ teamId }),
-    staleTime: Infinity,
-  })
+  
 
   const { mutateAsync: addColumn } = useMutation({
     mutationFn: () => createColumn({
