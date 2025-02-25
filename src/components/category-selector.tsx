@@ -7,7 +7,7 @@ import { PopoverClose } from "@radix-ui/react-popover";
 interface CategorySelectorProps {
   teamId: number | string
   setCategory: (category: Category) => void
-  category: Category | null
+  category: Category | undefined
 }
 
 export function CategorySelector({ teamId, setCategory, category }: CategorySelectorProps) {
