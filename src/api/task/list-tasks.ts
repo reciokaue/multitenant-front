@@ -2,7 +2,7 @@ import { api } from "@/lib/axios";
 import { Category } from "../category/list";
 
 interface listTaskProps {
-  teamId: number
+  teamId: number | string
   completed?: boolean,
   overdue?: boolean
   noDue?: boolean
