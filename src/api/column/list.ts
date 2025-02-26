@@ -1,5 +1,4 @@
 import { api } from "@/lib/axios";
-import { Task } from "../task/list-tasks";
 
 interface listColumnProps {
   teamId: number | string
@@ -12,7 +11,6 @@ export interface Column {
   id: number
   name: string
   teamId: number
-  tasks: Task[]
 }
 
 export async function listColumns({ teamId }: listColumnProps) {
