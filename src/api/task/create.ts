@@ -1,7 +1,7 @@
 import { api } from "@/lib/axios"
-import { Task } from "./list-tasks"
+import { Task } from "./list"
 
-export interface CreateTaskParams {
+export interface CreateTaskProps {
   task: Omit<Task, "id">
 }
 
@@ -9,7 +9,7 @@ export interface CreateTaskResponse {
   task: Task
 }
 
-export async function createTask({ task }: CreateTaskParams) {
+export async function createTask({ task }: CreateTaskProps) {
   const response = await api.post('/task/create', {
     ...task
   })

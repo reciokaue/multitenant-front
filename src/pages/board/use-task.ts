@@ -1,6 +1,7 @@
-import { createTask, CreateTaskParams } from "@/api/task/create-task";
-import { listTasks } from "@/api/task/list-tasks";
+import { createTask, CreateTaskProps } from "@/api/task/create";
+import { listTasks } from "@/api/task/list";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { editTask, EditTaskProps } from "@/api/task/edit";
 
 interface UseTaskProps {
   teamId: number | string
@@ -16,35 +17,44 @@ export function useTask({ teamId }: UseTaskProps){
     staleTime: Infinity,
   })
 
+  if(!data)
+    return
+
   const createMutation = useMutation({
-    mutationFn: ({ task }: CreateTaskParams) => createTask({ task }),
+    mutationFn: ({ task }: CreateTaskProps) => createTask({ task }),
     onMutate: async ({ task }) => {
-      const previousData = data
-      const newTask = { id: -1, ...task };
-      
-      queryClient.setQueryData(queryKey, () => {
-        if (!data) return data;
-        return { tasks: [...data.tasks, newTask] };
-      });
-      
-      return { previousData };
+      queryClient.setQueryData(queryKey, () => ({
+        tasks: [...data.tasks, { id: -1, ...task }]
+      }));
+      return { previousData: data };
     },
     onSuccess: ({ task }) => {
-      queryClient.setQueryData(queryKey, () => {
-        if (!data) return data;
-        return {
-          columns: data.tasks.map(t => t.id === -1 ? task : t)
-        };
-      });
+      queryClient.setQueryData(queryKey, () => ({
+        tasks: data.tasks.map(t => t.id === -1 ? task : t)
+      }));
     },
     onError: (_err, _variables, context) => {
-      if (context?.previousData) {
-        queryClient.setQueryData([`columns-${teamId}`], context.previousData);
-      }
+      if (context?.previousData)
+        queryClient.setQueryData(queryKey, context.previousData);
     }
   });
 
+  const updateMutation = useMutation({
+    mutationFn: ({ task }: EditTaskProps) => editTask({ task }),
+    onMutate: async ({ task }) => {
+      queryClient.setQueryData(queryKey, () => ({
+        tasks: data.tasks.map((t) => t.id !== task.id? t: task)
+      }));
+      return { previousData: data };
+    },
+    onError: (_err, _variables, context) => {
+      if (context?.previousData)
+        queryClient.setQueryData(queryKey, context.previousData);
+    }
+  })
+
   return {
-    createMutation
+    createMutation,
+    updateMutation
   }
 }

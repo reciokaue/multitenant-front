@@ -1,15 +1,11 @@
 import { api } from "@/lib/axios"
 import { Column } from "./list"
 
-interface ColumnProps{
-  column: EditingColumn
+export interface EditColumnProps{
+  column: Column
 }
 
-interface EditingColumn {
-  text: string
-}
-
-export async function createColumn({ column }: ColumnProps){
+export async function editColumn({ column }: EditColumnProps){
   const response = await api.put('/column/edit', {
     ...column
   })

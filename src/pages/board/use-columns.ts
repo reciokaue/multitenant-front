@@ -1,12 +1,13 @@
 import { createColumn, CreateColumnProps } from "@/api/column/create";
 import { listColumns } from "@/api/column/list";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { editColumn, EditColumnProps } from "@/api/column/edit";
 
-interface UseColumnsProps {
+interface UseColumnProps {
   teamId: number | string
 }
 
-export function useColumns({ teamId }: UseColumnsProps){
+export function useColumn({ teamId }: UseColumnProps){
   const queryClient = useQueryClient();
   const queryKey = [`columns-${teamId}`]
 
@@ -16,37 +17,44 @@ export function useColumns({ teamId }: UseColumnsProps){
     staleTime: Infinity,
   })
 
-  const mutation = useMutation({
+  if(!data)
+    return
+
+  const createMutation = useMutation({
     mutationFn: ({ column }: CreateColumnProps) => createColumn({ column }),
     onMutate: async ({ column }) => {
-      const previousData = data
-      const newColumn = { id: -1, ...column };
-      
-      queryClient.setQueryData(queryKey, () => {
-        if (!data) return data;
-        return { columns: [...data.columns, newColumn] };
-      });
-      
-      return { previousData };
+      queryClient.setQueryData(queryKey, () => ({
+        columns: [...data.columns, { id: -1, ...column }]
+      }));
+      return { previousData: data };
     },
-    onSuccess: (newColumn) => {
-      queryClient.setQueryData(queryKey, () => {
-        if (!data) return data;
-        
-        return {
-          columns: data.columns.map(col => col.id === -1 ? newColumn : col)
-        };
-      });
+    onSuccess: ({ column }) => {
+      queryClient.setQueryData(queryKey, () => ({
+        columns: data.columns.map(t => t.id === -1 ? column : t)
+      }));
     },
     onError: (_err, _variables, context) => {
-      if (context?.previousData) {
-        queryClient.setQueryData([`columns-${teamId}`], context.previousData);
-      }
+      if (context?.previousData)
+        queryClient.setQueryData(queryKey, context.previousData);
     }
   });
 
+  const updateMutation = useMutation({
+    mutationFn: ({ column }: EditColumnProps) => editColumn({ column }),
+    onMutate: async ({ column }) => {
+      queryClient.setQueryData(queryKey, () => ({
+        columns: data.columns.map((t) => t.id !== column.id? t: column)
+      }));
+      return { previousData: data };
+    },
+    onError: (_err, _variables, context) => {
+      if (context?.previousData)
+        queryClient.setQueryData(queryKey, context.previousData);
+    }
+  })
+
   return {
-    columns: data?.columns,
-    ...mutation
+    createMutation,
+    updateMutation
   }
 }
