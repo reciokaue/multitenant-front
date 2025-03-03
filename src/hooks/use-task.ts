@@ -1,37 +1,36 @@
 import { createTask, CreateTaskProps } from "@/api/task/create";
-import { listTasks } from "@/api/task/list";
+import { listTasks, ListTasksResponse } from "@/api/task/list";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { editTask, EditTaskProps } from "@/api/task/edit";
+import { useParams } from "react-router-dom";
 
-interface UseTaskProps {
-  teamId: number | string
-}
-
-export function useTask({ teamId }: UseTaskProps){
+export function useTasks(){
+  const { teamId } = useParams();
   const queryClient = useQueryClient();
   const queryKey = [`tasks-${teamId}`]
 
-  const { data } = useQuery({
+  const query = useQuery({
     queryKey,
-    queryFn: () => listTasks({ teamId }),
+    queryFn: () => listTasks({ teamId: teamId || '' }),
     staleTime: Infinity,
+    enabled: teamId !== undefined
   })
+  const { data } = query
 
-  if(!data)
-    return
+  const setTasks = (updater: (tasks: ListTasksResponse["tasks"]) => ListTasksResponse["tasks"]) => {
+    queryClient.setQueryData(queryKey, (prev: ListTasksResponse | undefined) => ({
+      tasks: prev ? updater(prev.tasks) : [],
+    }));
+  };
 
   const createMutation = useMutation({
     mutationFn: ({ task }: CreateTaskProps) => createTask({ task }),
     onMutate: async ({ task }) => {
-      queryClient.setQueryData(queryKey, () => ({
-        tasks: [...data.tasks, { id: -1, ...task }]
-      }));
+      setTasks((prev) => [...prev, { id: -1, ...task }]);
       return { previousData: data };
     },
     onSuccess: ({ task }) => {
-      queryClient.setQueryData(queryKey, () => ({
-        tasks: data.tasks.map(t => t.id === -1 ? task : t)
-      }));
+      setTasks((prev) => prev.map(t => t.id === -1 ? task : t));
     },
     onError: (_err, _variables, context) => {
       if (context?.previousData)
@@ -41,20 +40,13 @@ export function useTask({ teamId }: UseTaskProps){
 
   const updateMutation = useMutation({
     mutationFn: ({ task }: EditTaskProps) => editTask({ task }),
-    onMutate: async ({ task }) => {
-      queryClient.setQueryData(queryKey, () => ({
-        tasks: data.tasks.map((t) => t.id !== task.id? t: task)
-      }));
-      return { previousData: data };
-    },
-    onError: (_err, _variables, context) => {
-      if (context?.previousData)
-        queryClient.setQueryData(queryKey, context.previousData);
-    }
   })
 
   return {
+    ...query,
+    ...query.data,
     createMutation,
-    updateMutation
+    updateMutation,
+    setTasks
   }
 }

@@ -1,6 +1,6 @@
 import { Category } from "@/api/category/list";
 import { listColumnResponse } from "@/api/column/list";
-import { createTask, CreateTaskParams } from "@/api/task/create-task";
+import { createTask, CreateTaskParams } from "@/api/task/create";
 import { CategorySelector } from "@/components/category-selector";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
@@ -115,5 +115,31 @@ export function AddTaskDrawer({teamId}: AddTaskProps) {
         </DrawerHeader>
       </DrawerContent>
     </Drawer>
+  );
+};
+
+import { Plus } from "lucide-react";
+
+interface AddTaskButtonProps {
+  columnId: number
+}
+
+export function AddTaskButton({ columnId }: AddTaskButtonProps) {
+  const [ _, setSearchParams ] = useSearchParams()
+
+  function openAddTaskDrawer(){
+    setSearchParams((url) => {
+      url.set('add-task', String(columnId))
+      return url
+    })
+  }
+
+  return (
+   <Button
+      onClick={openAddTaskDrawer}
+      size='icon'
+    >
+      <Plus/>
+  </Button>
   );
 };

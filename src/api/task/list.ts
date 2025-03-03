@@ -17,12 +17,13 @@ export interface Task {
   description: string | null
   teamId: number
   columnId: number
+  index: number
   dueDate?: Date | null
   categoryId?: number | null
   category?: Category
 }
 
-interface ListTasksResponse {
+export interface ListTasksResponse {
   tasks: Task[]
 }
 
