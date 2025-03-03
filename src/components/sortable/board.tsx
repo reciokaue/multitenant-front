@@ -78,7 +78,7 @@ export function Board() {
                 tasks={tasks.filter((task) => task.columnId === col.id)}
               />
             ))}
-            <AddColumn/>
+            <AddColumn index={columns.length || 0}/>
           </div>
         </SortableContext>
       </ScrollContainer>
