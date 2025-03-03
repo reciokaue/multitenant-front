@@ -6,6 +6,8 @@ import type { Column } from "@/api/column/list";
 import { SortableTask } from "./task";
 import { Task } from "@/api/task/list";
 import { AddTask } from "./add-task";
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu";
+import { useColumns } from "@/hooks/use-columns";
 
 const variants = cva(
   "border rounded-md w-[250px] h-[80vh] flex-shrink-0 snap-center bg-primary-foreground",
@@ -48,6 +50,7 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
     transition,
   };
 
+  const { deleteMutation } = useColumns()
   const taskIds = tasks?.map(t => `t-${t.id}`)
   
   return (
@@ -57,10 +60,25 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
       })}
     >
       {!isDragging && <>
-        <div className="flex justify-between group p-4 border-b"  {...attributes} {...listeners}>
-          {column.name} 
-          <GripHorizontal />
-        </div>
+        
+
+        <ContextMenu>
+          <ContextMenuTrigger asChild>
+            <div className="flex justify-between group p-4 border-b"  {...attributes} {...listeners}>
+              {column.name} 
+              <GripHorizontal />
+            </div>
+          </ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>Editar Coluna</ContextMenuItem>
+            <ContextMenuItem
+              variant="destructive"
+              onClick={() => deleteMutation.mutateAsync(column.id)}
+            >
+                Deletar Coluna
+            </ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
 
         <SortableContext items={taskIds}>
           <div className="space-y-2 py-4 px-2 flex-1">
@@ -78,3 +96,4 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
     </div>
   );
 }
+

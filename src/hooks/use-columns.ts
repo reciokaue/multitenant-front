@@ -3,6 +3,7 @@ import { listColumns, ListColumnsResponse } from "@/api/column/list";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { editColumn, EditColumnProps } from "@/api/column/edit";
 import { useParams } from "react-router-dom";
+import { deleteColumn } from "@/api/column/delete";
 
 
 export function useColumns(){
@@ -27,7 +28,7 @@ export function useColumns(){
   const createMutation = useMutation({
     mutationFn: ({ column }: CreateColumnProps) => createColumn({ column }),
     onMutate: async ({ column }) => {
-      setColumns((prev) => [...prev, { id: -1, ...column }]);
+      setColumns((prev) => [...prev, { id: -1, ...column }] as any);
       return { previousData: data };
     },
     onSuccess: ({ column }) => {
@@ -43,11 +44,19 @@ export function useColumns(){
     mutationFn: ({ column }: EditColumnProps) => editColumn({ column }),
   })
 
+  const deleteMutation = useMutation({
+    mutationFn: (columnId: number | string) => deleteColumn({ columnId }),
+    onMutate: ( columnId ) => {
+      setColumns((prev) => prev.filter(c => c.id !== columnId));
+    },
+  })
+
   return {
     ...query,
     columns: data?.columns,
     createMutation,
     updateMutation,
+    deleteMutation,
     setColumns
   }
 }

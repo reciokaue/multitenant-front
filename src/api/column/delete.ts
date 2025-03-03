@@ -1,7 +1,7 @@
 import { api } from "@/lib/axios"
 
 interface ColumnProps{
-  columnId: number
+  columnId: number | string
 }
 
 export async function deleteColumn({ columnId }: ColumnProps){
