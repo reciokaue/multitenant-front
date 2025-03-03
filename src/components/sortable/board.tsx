@@ -5,6 +5,8 @@ import { useTasks } from "@/hooks/use-task";
 import { DndContext, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { useState } from "react";
+import { ScrollContainer } from "./scroll";
+import { AddColumn } from "./add-column";
 
 export function Board() {
   const [active, setActive] = useState<ActiveItem | null>(null)
@@ -66,17 +68,20 @@ export function Board() {
     }}
    >
     {columns && columnsIds &&
-      <SortableContext items={columnsIds} >
-        <div className="flex gap-1">
-          {tasks && columns?.map(col => (
-            <SortableColumn
-              column={col}
-              key={`c-${col.id}`}
-              tasks={tasks.filter((task) => task.columnId === col.id)}
-            />
-          ))}
-        </div>
-      </SortableContext>
+      <ScrollContainer>
+        <SortableContext items={columnsIds} >
+          <div className="flex gap-2">
+            {tasks && columns?.map(col => (
+              <SortableColumn
+                column={col}
+                key={`c-${col.id}`}
+                tasks={tasks.filter((task) => task.columnId === col.id)}
+              />
+            ))}
+            <AddColumn/>
+          </div>
+        </SortableContext>
+      </ScrollContainer>
     }
     <Overlay active={active}/>
    </DndContext>

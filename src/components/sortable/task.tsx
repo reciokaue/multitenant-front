@@ -3,10 +3,10 @@ import { CSS } from "@dnd-kit/utilities";
 import { cva } from "class-variance-authority";
 import { Task } from "@/api/task/list";
 
-const variants = cva("p-2 border rounded-md", {
+const variants = cva("p-2 border rounded-md group hover:border-primary group bg-background", {
   variants: {
     dragging: {
-      over: "ring-2 opacity-30",
+      over: "opacity-30",
       overlay: "ring-2 ring-primary",
     },
   },
@@ -49,6 +49,7 @@ export function SortableTask({ task, isOverlay }: SortableTaskProps) {
       })}
     >
       {task.title}
+      {task.category?.label}
     </div>
   );
 }

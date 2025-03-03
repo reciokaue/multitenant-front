@@ -27,6 +27,7 @@ export function Overlay({ active }: OverlayProps) {
               <SortableContext items={[`c-${active.id}`]} >
                 <SortableColumn
                   column={active}
+                  isOverlay
                   tasks={tasks?.filter(
                     (task) => task.columnId === active.id
                   )}
