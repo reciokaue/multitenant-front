@@ -5,6 +5,7 @@ import { cva } from "class-variance-authority";
 import type { Column } from "@/api/column/list";
 import { SortableTask } from "./task";
 import { Task } from "@/api/task/list";
+import { AddTask } from "./add-task";
 
 const variants = cva(
   "border rounded-md w-[250px] h-[80vh] flex-shrink-0 snap-center bg-primary-foreground",
@@ -66,6 +67,11 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
             {tasks?.map((task: Task) => (
               <SortableTask task={task}/>
             ))}
+            <AddTask
+              columnId={column.id}
+              index={tasks?.length || 0}
+              teamId={column.teamId}
+            />
           </div>
         </SortableContext>
       </>}
