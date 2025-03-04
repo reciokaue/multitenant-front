@@ -7,7 +7,7 @@ const variants = cva("p-2 border rounded-md group hover:border-primary group bg-
   variants: {
     dragging: {
       over: "opacity-30",
-      overlay: "ring-2 ring-primary",
+      overlay: "ring-2 ring-primary rotate-2",
     },
   },
 });

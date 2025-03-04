@@ -5,7 +5,7 @@ import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 export function ScrollContainer({ children }: { children: React.ReactNode }) {
   const dndContext = useDndContext();
 
-  const variations = cva("flex items-start", {
+  const variations = cva("flex items-start pb-2", {
     variants: {
       dragging: {
         default: "snap-x snap-mandatory",
@@ -23,7 +23,7 @@ export function ScrollContainer({ children }: { children: React.ReactNode }) {
       <div className="flex gap-4 items-start flex-row justify-start p-2">
         {children}
       </div>
-      <ScrollBar orientation="horizontal" />
+      <ScrollBar orientation="horizontal"  />
     </ScrollArea>
   );
 }

@@ -3,6 +3,7 @@ import { listTasks, ListTasksResponse } from "@/api/task/list";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { editTask, EditTaskProps } from "@/api/task/edit";
 import { useParams } from "react-router-dom";
+import { editTaskPosition } from "@/api/task/position";
 
 export function useTasks(){
   const { teamId } = useParams();
@@ -26,7 +27,7 @@ export function useTasks(){
   const createMutation = useMutation({
     mutationFn: ({ task }: CreateTaskProps) => createTask({ task }),
     onMutate: async ({ task }) => {
-      setTasks((prev) => [...prev, { id: -1, ...task }]);
+      setTasks((prev) => [...prev, { id: -1, ...task }] as any);
       return { previousData: data };
     },
     onSuccess: ({ task }) => {
@@ -41,12 +42,16 @@ export function useTasks(){
   const updateMutation = useMutation({
     mutationFn: ({ task }: EditTaskProps) => editTask({ task }),
   })
+  const positionMutation = useMutation({
+    mutationFn: ({ task }: EditTaskProps) => editTaskPosition({ task }),
+  })
 
   return {
     ...query,
     ...query.data,
     createMutation,
     updateMutation,
+    positionMutation,
     setTasks
   }
 }

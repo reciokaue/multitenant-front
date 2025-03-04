@@ -60,8 +60,6 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
       })}
     >
       {!isDragging && <>
-        
-
         <ContextMenu>
           <ContextMenuTrigger asChild>
             <div className="flex justify-between group p-4 border-b"  {...attributes} {...listeners}>
@@ -83,7 +81,7 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
         <SortableContext items={taskIds}>
           <div className="space-y-2 py-4 px-2 flex-1">
             {tasks?.map((task: Task) => (
-              <SortableTask task={task}/>
+              <SortableTask task={task} key={`t-${task.id}`}/>
             ))}
             <AddTask
               columnId={column.id}

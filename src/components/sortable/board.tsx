@@ -12,7 +12,7 @@ export function Board() {
   const [active, setActive] = useState<ActiveItem | null>(null)
 
   const { columns, setColumns } = useColumns()
-  const { tasks, setTasks } = useTasks()
+  const { tasks, setTasks, positionMutation } = useTasks()
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -47,8 +47,7 @@ export function Board() {
           else
             activeTask.index = overData?.sortable.index + 1
 
-          // update task on database
-
+          positionMutation.mutateAsync({task: activeTask})
           return arrayMove(tasks, activeIndex, overIndex);
         })
       }
