@@ -9,5 +9,6 @@ export async function editTask({ task }: EditTaskProps){
   const response = await api.put('/task/edit', {
     ...task
   })
+  
   return response.data as {task: Task}
 }

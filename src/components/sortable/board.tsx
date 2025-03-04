@@ -15,7 +15,7 @@ export function Board() {
   const { tasks, setTasks, positionMutation } = useTasks()
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {activationConstraint: {delay: 150, tolerance: 150}}),
   )
 
   const columnsIds = columns?.map(c => `c-${c.id}`)

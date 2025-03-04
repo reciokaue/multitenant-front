@@ -38,9 +38,21 @@ export function useTasks(){
         queryClient.setQueryData(queryKey, context.previousData);
     }
   });
-
   const updateMutation = useMutation({
     mutationFn: ({ task }: EditTaskProps) => editTask({ task }),
+    onMutate: ({ task }) => {
+      const prev = queryClient.getQueryData([`task-${task.id}`])
+      queryClient.setQueryData([`task-${task.id}`], () => ({ task }))
+      setTasks((prev) => prev.map(t => t.id === task.id ? task : t));
+      return { previousData: prev };
+    },
+    onError: (_err, _variables, context: any) => {
+      const task = context?.previousData
+      if (!task) return
+
+      queryClient.setQueryData([`task-${task.id}`], context.previousData);
+      setTasks((prev) => prev.map(t => t.id === task.id ? task : t));
+    }
   })
   const positionMutation = useMutation({
     mutationFn: ({ task }: EditTaskProps) => editTaskPosition({ task }),

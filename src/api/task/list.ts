@@ -18,7 +18,7 @@ export interface Task {
   teamId: number
   columnId: number
   index: number
-  dueDate?: Date | null
+  dueDate?: string | null
   categoryId?: number | null
   category?: Category
 }
