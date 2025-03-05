@@ -1,4 +1,4 @@
-import { getUserTeams } from "@/api/team/get-user-teams";
+import { getUserTeams } from "@/api/user/teams";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
