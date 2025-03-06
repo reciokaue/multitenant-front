@@ -1,7 +1,7 @@
 import { Check, Plus, X } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { useState, useRef } from "react";
-import { Input } from "../ui/input";
+import { Input } from "../../../components/ui/input";
 import { useTasks } from "@/hooks/use-task";
 
 interface AddTaskProps {

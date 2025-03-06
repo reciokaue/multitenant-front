@@ -1,7 +1,7 @@
 import { Check, Plus, X } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { useState, useRef } from "react";
-import { Input } from "../ui/input";
+import { Input } from "../../../components/ui/input";
 import { useColumns } from "@/hooks/use-columns";
 import { useParams } from "react-router-dom";
 

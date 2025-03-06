@@ -8,7 +8,9 @@ import { Login } from './pages/auth/login'
 import { Register } from './pages/auth/register'
 import { Teams } from './pages/teams'
 import { Tasks } from './pages/tasks'
-import { SelectedTeam } from './pages/board'
+import { Board } from './pages/team/board'
+import { TeamLayout } from './pages/layouts/team'
+import { Config } from './pages/team/config'
 
 export const router = createBrowserRouter([
   {
@@ -17,7 +19,13 @@ export const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { path: '/', element: <Teams /> },
-      { path: '/team/:teamId', element: <SelectedTeam /> },
+      {
+        path: '/',
+        element: <TeamLayout/>,
+        children: [
+          { path: '/team/:teamId', element: <Board /> },
+        ]
+      },
       { path: '/tasks', element: <Tasks /> },
     ],
   },

@@ -1,11 +1,11 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
-import { GripHorizontal, GripVertical } from "lucide-react";
+import { GripHorizontal } from "lucide-react";
 import { CSS } from "@dnd-kit/utilities";
 import { cva } from "class-variance-authority";
 import type { Column } from "@/api/column/list";
 import { SortableTask } from "./task";
 import { Task } from "@/api/task/list";
-import { AddTask } from "./add-task";
+import { AddTask } from "../../pages/team/board/add-task";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu";
 import { useColumns } from "@/hooks/use-columns";
 

@@ -1,11 +1,10 @@
-import { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cva } from "class-variance-authority";
 import { Task } from "@/api/task/list";
 import { useSearchParams } from "react-router-dom";
 
-const variants = cva("p-2 border rounded-md group hover:border-primary group bg-background", {
+const variants = cva("p-2 border cursor-pointer focus:cursor-grab rounded-md group hover:border-primary group bg-background", {
   variants: {
     dragging: {
       over: "opacity-30",
@@ -21,8 +20,6 @@ interface SortableTaskProps {
 
 export function SortableTask({ task, isOverlay }: SortableTaskProps) {
   const [_, setSearchParams] = useSearchParams();
-  const [isDraggingStarted, setIsDraggingStarted] = useState(false);
-  let dragTimeout: NodeJS.Timeout;
 
   const {
     attributes,
@@ -45,25 +42,12 @@ export function SortableTask({ task, isOverlay }: SortableTaskProps) {
   };
 
   function openEditTask() {
-    if (!isDraggingStarted) {
-      setSearchParams((url) => {
-        url.set('task', String(task.id));
-        return url;
-      });
-    }
+    setSearchParams((url) => {
+      url.set('task', String(task.id));
+      return url;
+    });
   }
 
-  function handlePointerDown() {
-    dragTimeout = setTimeout(() => {
-      setIsDraggingStarted(true);
-    }, 150); // Pequeno delay para distinguir entre clique e arrasto
-  }
-
-  function handlePointerUp() {
-    clearTimeout(dragTimeout);
-    setIsDraggingStarted(false);
-  }
-  
   return (
     <div
       ref={setNodeRef}
@@ -73,8 +57,6 @@ export function SortableTask({ task, isOverlay }: SortableTaskProps) {
       className={variants({
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
       })}
-      // onPointerDown={handlePointerDown}
-      // onPointerUp={handlePointerUp}
       onClick={openEditTask}
     >
       {task.title}

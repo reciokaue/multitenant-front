@@ -10,12 +10,12 @@ export function Config() {
       <DialogTrigger>
         <EllipsisVertical/>
       </DialogTrigger>
-      <DialogContent className="flex flex-col items-start !w-[800px] !max-w-[800px] top-96 h-[400px]">
+      <DialogContent className="flex flex-col items-start !w-[800px] !max-w-[800px] min-h-[400px]">
         <DialogHeader>
           <DialogTitle>Configurações</DialogTitle>
         </DialogHeader>
 
-        <Tabs defaultValue="members" className="w-[400px]">
+        <Tabs defaultValue="members" className="w-full">
           <TabsList>
             <TabsTrigger value="members">Membros</TabsTrigger>
             <TabsTrigger value="roles">Cargos</TabsTrigger>

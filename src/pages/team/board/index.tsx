@@ -1,12 +1,13 @@
 import { SortableColumn } from "@/components/sortable/column";
 import { ActiveItem, Overlay } from "@/components/sortable/overlay";
+import { ScrollContainer } from "@/components/sortable/scroll";
 import { useColumns } from "@/hooks/use-columns";
 import { useTasks } from "@/hooks/use-task";
 import { DndContext, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { useState } from "react";
-import { ScrollContainer } from "./scroll";
 import { AddColumn } from "./add-column";
+import { EditTaskDialog } from "./edit-task-dialog";
 
 export function Board() {
   const [active, setActive] = useState<ActiveItem | null>(null)
@@ -83,6 +84,7 @@ export function Board() {
       </ScrollContainer>
     }
     <Overlay active={active}/>
+    <EditTaskDialog/>
    </DndContext>
   );
 };
