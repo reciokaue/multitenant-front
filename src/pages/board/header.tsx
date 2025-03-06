@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { EllipsisVertical, Filter } from "lucide-react";
 import { useParams } from "react-router-dom";
+import { Config } from "./config";
 
 interface HeaderProps {
    
@@ -27,7 +28,7 @@ export function Header() {
           Filtros
         </Button>
         <div className="size-7 bg-accent-foreground rounded-full shrink-0"/>
-        <EllipsisVertical/>
+        <Config/>
       </div>
     </div>
   );
