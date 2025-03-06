@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { UserRole } from "../role/get-user-roles";
 
 interface GetTeamProps {
   teamId: number | string | undefined
@@ -11,6 +12,7 @@ export interface Team {
 
 interface GetTeamResponse {
   team: Team
+  userRole: UserRole
 }
 
 export async function getTeam({teamId}: GetTeamProps) {
