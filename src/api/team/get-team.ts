@@ -8,6 +8,7 @@ interface GetTeamProps {
 export interface Team {
   id: number
   name: string
+  colorHex: string | null
 }
 
 interface GetTeamResponse {
