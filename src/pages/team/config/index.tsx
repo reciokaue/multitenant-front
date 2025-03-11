@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EllipsisVertical } from "lucide-react";
 import { Members } from "./members";
 import { Roles } from "./roles";
+import { Invites } from "./invites";
 
 export function Config() {
   return (
@@ -26,7 +27,9 @@ export function Config() {
           <TabsContent value="roles">
             <Roles/>
           </TabsContent>
-          <TabsContent value="invites">Change your password here.</TabsContent>
+          <TabsContent value="invites">
+            <Invites/>
+          </TabsContent>
         </Tabs>
       </DialogContent>
     </Dialog>
