@@ -1,23 +1,10 @@
-import { getTeam } from "@/api/team/get-team";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
-import { EllipsisVertical, Filter } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { Filter } from "lucide-react";
 import { Config } from "./config";
-
-interface HeaderProps {
-   
-}
+import { useTeam } from "@/hooks/use-team";
 
 export function Header() {
-  const { teamId } = useParams();
-
-  const { data } = useQuery({
-    queryKey: [`team-${teamId}`],
-    queryFn: () => getTeam({ teamId: teamId || '' }),
-    staleTime: Infinity,
-    enabled: teamId !== undefined
-  })
+  const { data } = useTeam()
 
   return (
     <div className="bg-foreground/5 0 px-6 py-4 flex justify-between items-center">

@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Header } from "../team/header";
+import { Header } from "./header";
 
 export function TeamLayout() {
   return (

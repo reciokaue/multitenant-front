@@ -9,8 +9,7 @@ import { Register } from './pages/auth/register'
 import { Teams } from './pages/teams'
 import { Tasks } from './pages/tasks'
 import { Board } from './pages/team/board'
-import { TeamLayout } from './pages/layouts/team'
-import { Config } from './pages/team/config'
+import { TeamLayout } from './pages/team/layout'
 
 export const router = createBrowserRouter([
   {
