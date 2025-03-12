@@ -1,5 +1,6 @@
 export const permissions = {
-  task: ["create", "edit", "delete", "view"],
+  task: ["create", "edit", "delete", "view", "move"],
+  column: ["create", "edit", "delete", "view", "move"],
   team: ["manage", "invite", "remove", "view"],
   comment: ["create", "edit", "delete", "view"],
 };
@@ -13,6 +14,7 @@ export const permissionsDetail = [
       { key: "edit", label: "Editar tarefas" },
       { key: "delete", label: "Deletar tarefas" },
       { key: "view", label: "Visualizar tarefas" },
+      { key: "move", label: "Mover tarefas" },
     ],
   },
   {
