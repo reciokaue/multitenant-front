@@ -14,6 +14,7 @@ export function useTeam(){
   })
 
   return {
-    ...query
+    ...query,
+    permissions: query.data?.userRole.role.permissions
   }
 }

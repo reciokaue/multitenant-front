@@ -8,6 +8,7 @@ import { Task } from "@/api/task/list";
 import { AddTask } from "../../pages/team/board/add-task";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu";
 import { useColumns } from "@/hooks/use-columns";
+import { HasPermission } from "@/lib/hasPermission";
 
 const variants = cva(
   "border rounded-md w-[250px] h-[80vh] flex-shrink-0 snap-center bg-primary-foreground",
@@ -62,9 +63,9 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
       {!isDragging && <>
         <ContextMenu>
           <ContextMenuTrigger asChild>
-            <div className="flex justify-between group p-4 border-b"  {...attributes} {...listeners}>
-              {column.name} 
-              <GripHorizontal />
+            <div className="flex justify-between group p-4 border-b"  >
+              {column.name}
+              <GripHorizontal className="cursor-grab" {...attributes} {...listeners}/>
             </div>
           </ContextMenuTrigger>
           <ContextMenuContent>
@@ -80,14 +81,18 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
 
         <SortableContext items={taskIds}>
           <div className="space-y-2 py-4 px-2 flex-1">
-            {tasks?.map((task: Task) => (
-              <SortableTask task={task} key={`t-${task.id}`}/>
-            ))}
-            <AddTask
-              columnId={column.id}
-              index={tasks?.length || 0}
-              teamId={column.teamId}
-            />
+            <HasPermission action="task:create">
+              {tasks?.map((task: Task) => (
+                <SortableTask task={task} key={`t-${task.id}`}/>
+              ))}
+            </HasPermission>
+            <HasPermission action="task:create">
+              <AddTask
+                columnId={column.id}
+                index={tasks?.length || 0}
+                teamId={column.teamId}
+              />
+            </HasPermission>
           </div>
         </SortableContext>
       </>}
