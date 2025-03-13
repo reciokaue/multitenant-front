@@ -47,13 +47,13 @@ export function PermissionTester() {
             {section.options.map((option) => {
               const permissionKey = `${section.prefix}:${option.key}`;
               return (
-                <label key={permissionKey} className="flex items-center gap-2">
+                <label key={permissionKey} className="flex items-center gap-2 text-sm">
                   <Checkbox
                     id={permissionKey}
                     checked={permissions.includes(permissionKey)}
                     onCheckedChange={() => togglePermission(permissionKey)}
                   />
-                  {option.label}
+                  <span className="font-mono text-secondary-foreground">{permissionKey}</span>
                 </label>
               );
             })}
