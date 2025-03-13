@@ -81,7 +81,7 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
 
         <SortableContext items={taskIds}>
           <div className="space-y-2 py-4 px-2 flex-1">
-            <HasPermission action="task:create">
+            <HasPermission action="task:view">
               {tasks?.map((task: Task) => (
                 <SortableTask task={task} key={`t-${task.id}`}/>
               ))}

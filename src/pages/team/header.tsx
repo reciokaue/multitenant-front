@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import { Config } from "./config";
 import { useTeam } from "@/hooks/use-team";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { PermissionTester } from "@/components/permission-tester";
 
 export function Header() {
   const { data } = useTeam()
@@ -15,16 +15,7 @@ export function Header() {
           <Filter/>
           Filtros
         </Button>
-        <Popover>
-          <PopoverTrigger>
-            <div className="size-7 bg-accent-foreground rounded-full shrink-0"/>
-          </PopoverTrigger>
-          <PopoverContent>
-            {data?.userRole.role.permissions.map((p) => (
-              <p>{p}</p>
-            ))}
-          </PopoverContent>
-        </Popover>
+        <PermissionTester/>
         <Config/>
       </div>
     </div>
