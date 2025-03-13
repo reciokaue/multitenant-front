@@ -8,7 +8,7 @@ import { Task } from "@/api/task/list";
 import { AddTask } from "../../pages/team/board/add-task";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu";
 import { useColumns } from "@/hooks/use-columns";
-import { HasPermission } from "@/lib/hasPermission";
+import { HasPermission } from "@/components/hasPermission";
 
 const variants = cva(
   "border rounded-md w-[250px] h-[80vh] flex-shrink-0 snap-center bg-primary-foreground",

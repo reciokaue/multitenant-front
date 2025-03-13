@@ -3,8 +3,9 @@ import { CSS } from "@dnd-kit/utilities";
 import { cva } from "class-variance-authority";
 import { Task } from "@/api/task/list";
 import { useSearchParams } from "react-router-dom";
+import { useTeam } from "@/hooks/use-team";
 
-const variants = cva("p-2 border cursor-pointer focus:cursor-grab rounded-md group hover:border-primary group bg-background", {
+const variants = cva("p-2 border cursor-pointer focus: rounded-md group hover:border-primary group bg-background", {
   variants: {
     dragging: {
       over: "opacity-30",
@@ -20,6 +21,7 @@ interface SortableTaskProps {
 
 export function SortableTask({ task, isOverlay }: SortableTaskProps) {
   const [_, setSearchParams] = useSearchParams();
+  const { hasPermission } = useTeam()
 
   const {
     attributes,
@@ -33,7 +35,8 @@ export function SortableTask({ task, isOverlay }: SortableTaskProps) {
     data: {
       type: 'task',
       ...task
-    }
+    },
+    
   } as any);
   
   const style = {
@@ -53,7 +56,7 @@ export function SortableTask({ task, isOverlay }: SortableTaskProps) {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      {...listeners}
+      {...(hasPermission('task:move') && listeners)}
       className={variants({
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
       })}

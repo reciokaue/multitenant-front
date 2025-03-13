@@ -8,9 +8,10 @@ interface CategorySelectorProps {
   teamId: number | string
   setCategory: (category: Category) => void
   category: Category | undefined
+  disabled?: boolean
 }
 
-export function CategorySelector({ teamId, setCategory, category }: CategorySelectorProps) {
+export function CategorySelector({ teamId, setCategory, category, disabled }: CategorySelectorProps) {
   const { data } = useQuery({
     queryKey: [`categories-${teamId}`],
     queryFn: () => listCategories({ teamId }),
@@ -34,6 +35,7 @@ export function CategorySelector({ teamId, setCategory, category }: CategorySele
               variant='list'
               aria-selected={cat.id === category?.id}
               style={{borderLeftColor: cat.colorHex || '#0000'}}
+              disabled={disabled}
             >
               {cat.label}
             </Button>
