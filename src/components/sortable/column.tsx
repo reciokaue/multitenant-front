@@ -65,7 +65,13 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
           <ContextMenuTrigger asChild>
             <div className="flex justify-between group p-4 border-b"  >
               {column.name}
-              <GripHorizontal className="cursor-grab" {...attributes} {...listeners}/>
+              <HasPermission action="column:move">
+                <GripHorizontal
+                  className="cursor-grab"
+                  {...attributes}
+                  {...listeners}
+                />
+              </HasPermission>
             </div>
           </ContextMenuTrigger>
           <ContextMenuContent>

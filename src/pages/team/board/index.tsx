@@ -8,6 +8,7 @@ import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { useState } from "react";
 import { AddColumn } from "./add-column";
 import { EditTaskDialog } from "./edit-task-dialog";
+import { HasPermission } from "@/components/hasPermission";
 
 export function Board() {
   const [active, setActive] = useState<ActiveItem | null>(null)
@@ -78,7 +79,9 @@ export function Board() {
                 tasks={tasks.filter((task) => task.columnId === col.id)}
               />
             ))}
-            <AddColumn index={columns.length || 0}/>
+            <HasPermission action="column:create">
+              <AddColumn index={columns.length || 0}/>
+            </HasPermission>
           </div>
         </SortableContext>
       </ScrollContainer>

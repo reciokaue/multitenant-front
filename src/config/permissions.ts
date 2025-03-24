@@ -18,6 +18,17 @@ export const permissionsDetail = [
     ],
   },
   {
+    title: "Colunas",
+    prefix: "column",
+    options: [
+      { key: "create", label: "Criar colunas" },
+      { key: "edit", label: "Editar colunas" },
+      { key: "delete", label: "Deletar colunas" },
+      { key: "view", label: "Visualizar colunas" },
+      { key: "move", label: "Mover colunas" },
+    ],
+  },
+  {
     title: "Equipe",
     prefix: "team",
     options: [
