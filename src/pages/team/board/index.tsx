@@ -13,11 +13,11 @@ import { HasPermission } from "@/components/hasPermission";
 export function Board() {
   const [active, setActive] = useState<ActiveItem | null>(null)
 
-  const { columns, setColumns } = useColumns()
-  const { tasks, setTasks, positionMutation } = useTasks()
+  const { columns, setColumns, positionMutation: columnPosition } = useColumns()
+  const { tasks, setTasks, positionMutation: taskPosition } = useTasks()
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {activationConstraint: {delay: 150, tolerance: 150}}),
+    useSensor(PointerSensor, {activationConstraint: {delay: 100, tolerance: 150}}),
   )
 
   const columnsIds = columns?.map(c => `c-${c.id}`)
@@ -36,21 +36,39 @@ export function Board() {
       const activeData = active.data.current
       const overData = over.data.current
 
-      if (activeData?.type == 'task') {
+      if (activeData?.type == 'task' && overData) {
         setTasks((tasks) => {
-          const activeIndex = tasks.findIndex((t) => t.id === activeData.id);
-          const overIndex = tasks.findIndex((t) => t.id === overData?.id);
+          // column order
+          const activeColumnTasks = tasks.filter(t => t.columnId === activeData.columnId)
+          const overColumnTasks = overData.type === 'column'?
+            tasks.filter(t => t.columnId === overData.id):
+            tasks.filter(t => t.columnId === overColumnId)
+            
+          const activeColumnIndex = activeColumnTasks.findIndex(t => t.id === activeData.id)
+          const overColumnIndex = overData.type === 'column'?
+            overColumnTasks.length:
+            overColumnTasks.findIndex(t => t.id === overData.id)
+            
+          // list order
+          const activeListIndex = tasks.findIndex(t => t.id === activeData.id)
+          const overListIndex = overData.type === 'column'?
+          tasks.map(t => t.columnId).lastIndexOf(overData.id) + 1:
+          tasks.findIndex(t => t.id === overData.id)
+          
+          const sameColumn = activeData.columnId === overData.columnId
+          const overColumnId = overData.columnId || overData.id
+          if(!sameColumn)
+            tasks[activeListIndex].columnId = overColumnId
+          
+          taskPosition.mutateAsync({
+            activeIndex: activeColumnIndex,
+            overIndex: overColumnIndex,
+            activeColumnId: activeData.columnId,
+            overColumnId: overData?.columnId || overData.id,
+            taskId: activeData.id,
+          })
 
-          const activeTask = tasks[activeIndex];
-
-          activeTask.columnId = overData?.columnId || overData?.id
-          if(overData?.type == 'column')
-            activeTask.index = 0
-          else
-            activeTask.index = overData?.sortable.index + 1
-
-          positionMutation.mutateAsync({task: activeTask})
-          return arrayMove(tasks, activeIndex, overIndex);
+          return arrayMove(tasks, activeListIndex, overListIndex);
         })
       }
       if(activeData?.type == 'column'){
@@ -60,8 +78,12 @@ export function Board() {
           const activeColumn = columns[activeIndex];
 
           activeColumn.index = overData?.sortable.index
-          // update column on database
-    
+          columnPosition.mutateAsync({
+            activeIndex: activeData?.sortable.index,
+            overIndex: overData?.sortable.index,
+            columnId: activeData.id
+          })
+
           return arrayMove(columns, activeIndex, overIndex);
         });
       }

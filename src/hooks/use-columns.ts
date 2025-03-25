@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { editColumn, EditColumnProps } from "@/api/column/edit";
 import { useParams } from "react-router-dom";
 import { deleteColumn } from "@/api/column/delete";
+import { editColumnPosition } from "@/api/column/position";
 
 
 export function useColumns(){
@@ -51,12 +52,17 @@ export function useColumns(){
     },
   })
 
+  const positionMutation = useMutation({
+      mutationFn: editColumnPosition
+  })
+
   return {
     ...query,
     columns: data?.columns,
     createMutation,
     updateMutation,
     deleteMutation,
-    setColumns
+    setColumns,
+    positionMutation
   }
 }

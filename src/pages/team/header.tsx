@@ -15,7 +15,9 @@ export function Header() {
           <Filter/>
           Filtros
         </Button>
-        <PermissionTester/>
+        {data &&
+          <PermissionTester/>
+        }
         <Config/>
       </div>
     </div>

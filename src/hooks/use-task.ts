@@ -55,7 +55,7 @@ export function useTasks(){
     }
   })
   const positionMutation = useMutation({
-    mutationFn: ({ task }: EditTaskProps) => editTaskPosition({ task }),
+    mutationFn: editTaskPosition,
   })
 
   return {

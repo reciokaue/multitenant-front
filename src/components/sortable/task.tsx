@@ -63,7 +63,7 @@ export function SortableTask({ task, isOverlay }: SortableTaskProps) {
       onClick={openEditTask}
     >
       {task.title}
-      {task.category?.label}
+      {/* {task.category?.label} */}
     </div>
   );
 }
