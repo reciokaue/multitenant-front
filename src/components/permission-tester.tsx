@@ -9,6 +9,7 @@ import { PopoverClose } from "@radix-ui/react-popover";
 
 export function PermissionTester() {
   const { data, queryKey } = useTeam();
+
   const queryClient = useQueryClient();
 
   const [permissions, setPermissions] = useState<string[]>(data?.userRole.role.permissions || []);
@@ -51,7 +52,6 @@ export function PermissionTester() {
       </PopoverTrigger>
       <PopoverContent className="p-4 flex flex-col gap-2">
         <p className="text-lg font-semibold">Testar Permissões</p>
-
         {permissionsDetail.map((section) => {
           const sectionPermissions = section.options.map((option) => `${section.prefix}:${option.key}`);
           const isSectionChecked = sectionPermissions.every((perm) => permissions.includes(perm));

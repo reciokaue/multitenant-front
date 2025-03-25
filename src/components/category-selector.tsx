@@ -27,9 +27,8 @@ export function CategorySelector({ teamId, setCategory, category, disabled }: Ca
       </PopoverTrigger>
       <PopoverContent align="start" className="flex flex-col p-0 ">
         {data?.categories.map((cat) => (
-          <PopoverClose asChild>
+          <PopoverClose asChild  key={cat.id}>
             <Button
-              key={cat.id}
               onClick={() => setCategory(cat)}
               className="rounded-none border-0 flex items-start border-l-8"
               variant='list'

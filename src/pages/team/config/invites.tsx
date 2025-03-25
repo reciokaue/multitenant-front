@@ -1,3 +1,4 @@
+import { sendInvite } from "@/api/invite/send";
 import { searchUsers } from "@/api/user/search";
 import { Button } from "@/components/ui/button";
 import { CardTitle } from "@/components/ui/card";
@@ -10,8 +11,9 @@ export function Invites() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const search = searchParams.get("search") || ''
-  const setSearch = (e: any) =>  setSearchParams((url) => {
-    url.set('search', e.target.value);
+
+  const setSearch = (value: string) =>  setSearchParams((url) => {
+    url.set('search', value);
     return url;
   });
 
@@ -21,9 +23,11 @@ export function Invites() {
     enabled: search !== ''
   });
 
-  // const inviteMutation = useMutation({
-  //   mutationFn: sendInvite
-  // })
+  const { mutate: handleSendInvite } = useMutation({
+    mutationFn: () => sendInvite({email: search}),
+    onMutate: () => setSearch(''),
+    onError: console.log
+  })
   
   return (
     <div className='flex flex-col space-y-4'>
@@ -32,10 +36,10 @@ export function Invites() {
         <PopoverTrigger className="flex flex-row gap-2">
           <Input
             placeholder="Email"
-            onChange={setSearch}
+            onChange={(e) => setSearch(e.target.value)}
             value={search}
           />
-          <Button>Enviar</Button>
+          <Button onClick={handleSendInvite}>Enviar</Button>
         </PopoverTrigger>
         <PopoverContent
           align="start"
@@ -47,6 +51,7 @@ export function Invites() {
               key={mail.id}
               className="w-full justify-start"
               variant='ghost'
+              onClick={() => setSearch(mail.email)}
             >
               {mail.email}
             </Button>
