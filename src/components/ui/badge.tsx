@@ -35,9 +35,13 @@ function Badge({
   variant,
   size,
   asChild = false,
+  show = true,
   ...props
 }: React.ComponentProps<"span"> &
-  VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
+  VariantProps<typeof badgeVariants> & { asChild?: boolean, show?: boolean }) {
+  if(!show)
+    return
+
   const Comp = asChild ? Slot : "span"
 
   return (

@@ -4,8 +4,11 @@ import { cva } from "class-variance-authority";
 import { Task } from "@/api/task/list";
 import { useSearchParams } from "react-router-dom";
 import { useTeam } from "@/hooks/use-team";
+import { Badge } from "../ui/badge";
+import { Checkbox } from "../ui/checkbox";
+import { format } from "date-fns";
 
-const variants = cva("p-2 border cursor-pointer focus: rounded-md group hover:border-primary group bg-background", {
+const variants = cva("group p-2 flex flex-col gap-2 border cursor-pointer focus: rounded-md group hover:border-primary group bg-background", {
   variants: {
     dragging: {
       over: "opacity-30",
@@ -62,7 +65,18 @@ export function SortableTask({ task, isOverlay }: SortableTaskProps) {
       })}
       onClick={openEditTask}
     >
-      {task.title}
+      <span>{task.title}</span>
+      
+      <footer className="flex gap-2">
+        <Badge show={!!task.category} className='border-0 border-l-8 pl-1.5' style={{borderColor: task.category?.colorHex || ''}} variant='secondary'>
+          {task.category?.label}
+        </Badge>
+        <Badge show={!!task.dueDate} variant='secondary'>
+          {task.dueDate && format(new Date(task.dueDate), "dd/MM/yyyy")}
+        </Badge>
+        {/* <Checkbox className="ml-auto group-hover:visible invisible"/> */}
+      </footer>
+      {/* {JSON.stringify(task)} */}
       {/* {task.category?.label} */}
     </div>
   );
