@@ -1,4 +1,4 @@
-import { SortableColumn } from "@/components/sortable/column";
+import { ColumnSkeleton, SortableColumn } from "@/components/sortable/column";
 import { ActiveItem, Overlay } from "@/components/sortable/overlay";
 import { ScrollContainer } from "@/components/sortable/scroll";
 import { useColumns } from "@/hooks/use-columns";
@@ -9,12 +9,13 @@ import { useState } from "react";
 import { AddColumn } from "./add-column";
 import { EditTaskDialog } from "./edit-task-dialog";
 import { HasPermission } from "@/components/hasPermission";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function Board() {
   const [active, setActive] = useState<ActiveItem | null>(null)
 
-  const { columns, setColumns, positionMutation: columnPosition } = useColumns()
-  const { tasks, setTasks, positionMutation: taskPosition } = useTasks()
+  const { columns, setColumns, positionMutation: columnPosition, isLoading: columnLoading } = useColumns()
+  const { tasks, setTasks, positionMutation: taskPosition, isLoading: taskLoading } = useTasks()
 
   const sensors = useSensors(
     useSensor(PointerSensor, {activationConstraint: {delay: 100, tolerance: 150}}),
@@ -90,24 +91,35 @@ export function Board() {
       setActive(null)
     }}
    >
-    {columns && columnsIds &&
-      <ScrollContainer>
+    <ScrollContainer>
+      {columns && columnsIds &&
         <SortableContext items={columnsIds} >
           <div className="flex gap-2">
-            {tasks && columns?.map(col => (
-              <SortableColumn
-                column={col}
-                key={`c-${col.id}`}
-                tasks={tasks.filter((task) => task.columnId === col.id)}
-              />
-            ))}
+            {tasks && !taskLoading?
+              columns?.map(col => (
+                <SortableColumn
+                  column={col}
+                  key={`c-${col.id}`}
+                  tasks={tasks.filter((task) => task.columnId === col.id)}
+                />
+              )):
+              <>
+                <ColumnSkeleton/>
+                <ColumnSkeleton/>
+                <ColumnSkeleton/>
+              </>
+            }
             <HasPermission action="column:create">
               <AddColumn index={columns.length || 0}/>
             </HasPermission>
           </div>
         </SortableContext>
-      </ScrollContainer>
-    }
+      }
+      {columnLoading && [0,1,2].map((i) => (
+        <Skeleton key={i} className="border rounded-md w-[250px] h-[80vh] flex-shrink-0 snap-center"/>
+      ))}
+    </ScrollContainer>
+    
     <Overlay active={active}/>
     <EditTaskDialog/>
    </DndContext>

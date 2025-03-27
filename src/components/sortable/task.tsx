@@ -76,8 +76,6 @@ export function SortableTask({ task, isOverlay }: SortableTaskProps) {
         </Badge>
         {/* <Checkbox className="ml-auto group-hover:visible invisible"/> */}
       </footer>
-      {/* {JSON.stringify(task)} */}
-      {/* {task.category?.label} */}
     </div>
   );
 }

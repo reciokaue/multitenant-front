@@ -3,12 +3,12 @@ import { Category } from "../category/list";
 
 interface listTaskProps {
   teamId: number | string
-  completed?: boolean,
-  overdue?: boolean
-  noDue?: boolean
-  dueIn?: 'day' | 'week' | 'month'
-  search?: string
-  categories?: number[]
+  completed?: string | null
+  overdue?: string | null
+  noDue?: string | null
+  dueIn?: 'day' | 'week' | 'month' | string | null
+  search?: string | null
+  categories?: string | null
 }
 
 export interface Task {
@@ -30,7 +30,11 @@ export interface ListTasksResponse {
 export async function listTasks({ teamId, ...rest }: listTaskProps) {
   const response = await api.get(`/task/team/${teamId}`, {
     params: {
-      ...rest
+      ...rest,
+      completed: rest?.completed ? Boolean(rest.completed): null,
+      overdue: rest?.overdue ? Boolean(rest.overdue): null,
+      noDue: rest?.noDue ? Boolean(rest.noDue): null,
+      categories: rest?.categories ? JSON.parse(rest.categories): null,
     }
   })
 
