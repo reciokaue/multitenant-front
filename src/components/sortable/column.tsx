@@ -9,6 +9,7 @@ import { AddTask } from "../../pages/team/board/add-task";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu";
 import { useColumns } from "@/hooks/use-columns";
 import { HasPermission } from "@/components/hasPermission";
+import { Skeleton } from "../ui/skeleton";
 
 const variants = cva(
   "border rounded-md w-[250px] h-[80vh] flex-shrink-0 snap-center bg-primary-foreground",
@@ -63,7 +64,7 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
       {!isDragging && <>
         <ContextMenu>
           <ContextMenuTrigger asChild>
-            <div className="flex justify-between group p-4 border-b"  >
+            <div className="flex justify-between group py-4 px-2 border-b"  >
               {column.name}
               <HasPermission action="column:move">
                 <GripHorizontal
@@ -104,5 +105,23 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
       </>}
     </div>
   );
+}
+
+export function ColumnSkeleton(){
+  return (
+    <div className={variants()}>
+      <div className="flex justify-between group py-4 px-2 border-b"  >
+        <Skeleton className="w-36 h-6"/>
+        <GripHorizontal
+          className="cursor-grab"
+        />
+      </div>
+      <div className="space-y-2 py-4 px-2 flex-1">
+        {[...Array(Math.floor(Math.random() * 9))].map((_, i) => (
+          <Skeleton key={i} className="rounded-md w-full h-[80px]"/>
+        ))}
+      </div>
+    </div>
+  )
 }
 
