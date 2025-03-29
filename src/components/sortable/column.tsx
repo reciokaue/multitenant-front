@@ -7,7 +7,7 @@ import { SortableTask } from "./task";
 import { Task } from "@/api/task/list";
 import { AddTask } from "../../pages/team/board/add-task";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu";
-import { useColumns } from "@/hooks/use-columns";
+import { useColumns } from "@/contexts/use-columns";
 import { HasPermission } from "@/components/hasPermission";
 import { Skeleton } from "../ui/skeleton";
 
@@ -52,7 +52,7 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
     transition,
   };
 
-  const { deleteMutation } = useColumns()
+  const { deleteColumn } = useColumns()
   const taskIds = tasks?.map(t => `t-${t.id}`)
   
   return (
@@ -79,7 +79,7 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
             <ContextMenuItem>Editar Coluna</ContextMenuItem>
             <ContextMenuItem
               variant="destructive"
-              onClick={() => deleteMutation.mutateAsync(column.id)}
+              onClick={() => deleteColumn(column.id)}
             >
                 Deletar Coluna
             </ContextMenuItem>

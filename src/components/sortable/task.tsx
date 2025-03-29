@@ -3,7 +3,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { cva } from "class-variance-authority";
 import { Task } from "@/api/task/list";
 import { useSearchParams } from "react-router-dom";
-import { useTeam } from "@/hooks/use-team";
+import { useTeam } from "@/contexts/use-team";
 import { Badge } from "../ui/badge";
 import { Checkbox } from "../ui/checkbox";
 import { format } from "date-fns";

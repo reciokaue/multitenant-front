@@ -5,7 +5,7 @@ import { SortableColumn } from "./column";
 import { SortableTask } from "./task";
 import { Column } from "@/api/column/list";
 import { SortableContext } from "@dnd-kit/sortable";
-import { useTasks } from "@/hooks/use-task";
+import { useTasks } from "@/contexts/use-tasks";
 
 interface OverlayProps {
   active: ActiveItem | null 

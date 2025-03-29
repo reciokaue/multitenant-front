@@ -1,5 +1,5 @@
 import { permissions } from "@/config/permissions";
-import { useTeam } from "@/hooks/use-team";
+import { useTeam } from "@/contexts/use-team";
 import { ReactNode } from "react";
 
 export type PermissionKeys = keyof typeof permissions;

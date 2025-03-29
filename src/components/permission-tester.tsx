@@ -1,4 +1,4 @@
-import { useTeam } from "@/hooks/use-team";
+import { useTeam } from "@/contexts/use-team";
 import { permissionsDetail } from "@/config/permissions";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useQueryClient } from "@tanstack/react-query";
