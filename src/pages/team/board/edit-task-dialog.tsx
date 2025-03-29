@@ -5,18 +5,17 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useTasks } from "@/hooks/use-task";
+import { useTasks } from "@/contexts/use-tasks";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2, Trash2 } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useTeam } from "@/hooks/use-team";
-import { Button } from "@/components/ui/button";
+import { useTeam } from "@/contexts/use-team";
 import { HasPermission } from "@/components/hasPermission";
 
 export function EditTaskDialog() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { updateMutation } = useTasks();
+  const { updateTask } = useTasks();
   const { hasPermission } = useTeam()
   
   const taskId = searchParams.get("task");
@@ -46,7 +45,7 @@ export function EditTaskDialog() {
     if (task && isDirty) {
       reset(data, { keepDirty: false })
 
-      await updateMutation.mutateAsync({
+      updateTask({
         task: {
           ...task,
           title: data.title,

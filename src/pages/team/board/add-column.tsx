@@ -2,7 +2,7 @@ import { Check, Plus, X } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { useState, useRef } from "react";
 import { Input } from "../../../components/ui/input";
-import { useColumns } from "@/hooks/use-columns";
+import { useColumns } from "@/contexts/use-columns";
 import { useParams } from "react-router-dom";
 
 interface AddColumnProps {

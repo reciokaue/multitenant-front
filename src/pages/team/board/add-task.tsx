@@ -2,7 +2,7 @@ import { Check, Plus, X } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { useState, useRef } from "react";
 import { Input } from "../../../components/ui/input";
-import { useTasks } from "@/hooks/use-task";
+import { useTasks } from "@/contexts/use-tasks";
 
 interface AddTaskProps {
   index: number
@@ -14,7 +14,7 @@ export function AddTask({ columnId, index, teamId }: AddTaskProps) {
   const [isAdding, setIsAdding] = useState(false);
   const [title, setTitle] = useState("")
   const inputRef = useRef<HTMLInputElement>(null);
-  const { createMutation } = useTasks()
+  const { createTask } = useTasks()
 
   function startAddNewTask() {
     setIsAdding(true);
@@ -30,11 +30,9 @@ export function AddTask({ columnId, index, teamId }: AddTaskProps) {
     if(title === '')
       return
 
-    createMutation.mutateAsync({
-      task: {
-        title: title,
-        columnId, index, teamId
-      }
+    createTask({
+      title: title,
+      columnId, index, teamId
     })
     
     setIsAdding(true)
