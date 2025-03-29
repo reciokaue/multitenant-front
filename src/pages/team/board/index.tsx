@@ -43,7 +43,7 @@ export function Board() {
           const activeColumnTasks = tasks.filter(t => t.columnId === activeData.columnId)
           const overColumnTasks = overData.type === 'column'?
             tasks.filter(t => t.columnId === overData.id):
-            tasks.filter(t => t.columnId === overColumnId)
+            tasks.filter(t => t.columnId === overData.columnId)
             
           const activeColumnIndex = activeColumnTasks.findIndex(t => t.id === activeData.id)
           const overColumnIndex = overData.type === 'column'?
@@ -94,25 +94,23 @@ export function Board() {
     <ScrollContainer>
       {columns && columnsIds &&
         <SortableContext items={columnsIds} >
-          <div className="flex gap-2">
-            {tasks?
-              columns?.map(col => (
-                <SortableColumn
-                  column={col}
-                  key={`c-${col.id}`}
-                  tasks={tasks.filter((task) => task.columnId === col.id)}
-                />
-              )):
-              <>
-                <ColumnSkeleton/>
-                <ColumnSkeleton/>
-                <ColumnSkeleton/>
-              </>
-            }
-            <HasPermission action="column:create">
-              <AddColumn index={columns.length || 0}/>
-            </HasPermission>
-          </div>
+          {tasks?
+            columns?.map(col => (
+              <SortableColumn
+                column={col}
+                key={`c-${col.id}`}
+                tasks={tasks.filter((task) => task.columnId === col.id)}
+              />
+            )):
+            <>
+              <ColumnSkeleton/>
+              <ColumnSkeleton/>
+              <ColumnSkeleton/>
+            </>
+          }
+          <HasPermission action="column:create">
+            <AddColumn index={columns.length || 0}/>
+          </HasPermission>
         </SortableContext>
       }
       {!columns && [0,1,2].map((i) => (
