@@ -26,10 +26,11 @@ export function Teams() {
             data.teams.map((team) => (
               <Link to={`/team/${team.id}`}>
                 <Card
-                  className="p-4 h-40 text-2xl bg-primary-foreground hover:brightness-75"
+                  className="relative p-4 pl-8 overflow-hidden h-40 text-2xl bg-primary-foreground hover:brightness-75"
                   key={team.id}
-                  style={team?.colorHex ? {background: team.colorHex}: {}}
+                  
                 >
+                  <span className="w-4 bottom-0 top-0 left-0 absolute" style={team?.colorHex ? {background: team.colorHex}: {}}/>
                   {team.name}
                 </Card>
               </Link>
