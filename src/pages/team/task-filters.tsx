@@ -72,7 +72,7 @@ export function TaskFilters() {
             <h3 className="font-medium">{label}</h3>
             <div className="space-y-1">
               {options.map(({ label, type, value }) => (
-                <label key={value} className="flex items-center space-x-2">
+                <label key={label} className="flex items-center space-x-2">
                   <Checkbox
                     checked={searchParams.get(type) === value}
                     onCheckedChange={() => toggleFilter(type, value)}

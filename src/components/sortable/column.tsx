@@ -10,6 +10,7 @@ import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } 
 import { useColumns } from "@/contexts/use-columns";
 import { HasPermission } from "@/components/hasPermission";
 import { Skeleton } from "../ui/skeleton";
+import { useDndContext } from "@dnd-kit/core";
 
 const variants = cva(
   "border rounded-md w-[250px] h-[80vh] flex-shrink-0 snap-center bg-primary-foreground",
@@ -38,7 +39,6 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
     transform,
     transition,
     isDragging,
-
   } = useSortable({
     id: `c-${column.id}`,
     data: {
@@ -54,6 +54,9 @@ export function SortableColumn({column, tasks, isOverlay }: SortableColumnProps)
 
   const { deleteColumn } = useColumns()
   const taskIds = tasks?.map(t => `t-${t.id}`)
+
+  const dndContext = useDndContext();
+  // console.log(dndContext)
   
   return (
     <div ref={setNodeRef} style={style} 
